@@ -15,7 +15,7 @@ import VueRx from 'vue-rx'
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 
-const socket = io('http://localhost:5999');
+const socket = io('https://the-quiz-flask-be.herokuapp.com/:5000');
 
 Vue.use(VueSocketIOExt, socket);
 
