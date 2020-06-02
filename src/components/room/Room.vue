@@ -19,7 +19,7 @@
               <span class="username">{{$store.state.userName}}</span>
               <br />
               <span v-if="!$store.state.isMaster">{{$store.state.points}} Points</span>
-              <span v-if="$store.state.isMaster && $store.state.userId">You are the master</span>
+              <span class="you-are-master-title" v-if="$store.state.isMaster && $store.state.userId">You are the master</span>
             </div>
           </div>
 
@@ -124,5 +124,9 @@
 
 .points-player {
   margin-left: 6px;
+}
+
+.you-are-master-title {
+  font-size: 12px;
 }
 </style>
