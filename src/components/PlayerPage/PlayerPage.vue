@@ -50,7 +50,7 @@
           >
             <span
               v-if="$store.state.currentReserver"
-            >{{$store.state.currentReserver.userName}} can now answer in: {{$store.state.reservationCounter}}</span>
+            >{{$store.state.currentReserver.userName}} can now answer</span>
           </div>
         </div>
 
@@ -84,7 +84,7 @@
             v-on:click="giveAnswer(questionData.answerFour)"
             class="col jumbotron pt-3 pb-3 ml-2 mt-2"
           >
-            <span>{{questionData.answerFour}}</span> <i cla></i>
+            <span>{{questionData.answerFour}}</span> 
           </div>
         </div>
       </div>
@@ -98,9 +98,13 @@
         class="alert alert-success"
       >You WIN!! ... for this round... we'll see the next one...</div>
       <div
-        v-else
+        v-if="roundWinner && roundWinner.userId !== $store.state.userId"
+        class="alert alert-warning"
+      >{{roundWinner.userName}} WIN!! ... The answer was: {{roundWinner.answer}}</div>
+      <div
+        v-if="!roundWinner"
         class="alert alert-secondary secondary-custom"
-      >The mester is doing his best to choose the worst question just for you... be patient</div>
+      >The master is doing his best to choose the worst question just for you... be patient</div>
     </div>
 
 

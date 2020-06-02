@@ -88,7 +88,6 @@ export default class PlayerPage extends Vue {
    */
   @Socket('wrongAnswerGiven')
   wrongAnswerGiven(answerData: any) {
-    console.log('wrongAnswerGiven');
     if (JSON.parse(answerData).userId === this.$store.state.userId) {
       this.canAnswer = false;
     }
@@ -103,7 +102,6 @@ export default class PlayerPage extends Vue {
    */
   @Socket('rightAnswerGiven')
   rightAnswerGiven(answerData: any) {
-    console.log('ANSWER WAS RIGHT: ', JSON.parse(answerData));
     const answerDataParsed = JSON.parse(answerData);
     this.$store.commit(STORE_MUTATION_UPDATE_CURRENT_RESERVER, null);
     this.$store.commit(STORE_MUTATION_ADD_POINT_TO_USER, answerDataParsed);
@@ -118,22 +116,40 @@ export default class PlayerPage extends Vue {
    */
   @Socket('userReservationConfirm')
   userReservationConfirm(data: any) {
-    console.log('userReservationConfirm: ', data);
     this.$store.commit(STORE_MUTATION_UPDATE_CURRENT_RESERVER, JSON.parse(data));
   }
 
+
+  /**
+   * This function is called when the game session for a question is closed,
+   * so when a player answer right or when the time ends. It resets the player page 
+   * values to the default and calls the enableWinMessage function.
+   * @param answerData  {userId: number, userName: string, answer: string}
+   */
   closeQuestionSession(answerData: any) {
     this.questionData = null;
     this.canAnswer = true;
     this.enableWinMessage(answerData);
   }
 
+  /**
+   * This function sets the roundWinner variable, that rappresents the user who won
+   * the round, also waits up to 4 seconds then resets the roundwinner to null.
+   * This will cause, if the roundWinner is the current user, a message to show
+   * up when the round ends, telling the user thet he won the round 
+   * @param answerData  {userId: number, userName: string, answer: string}
+   */
   async enableWinMessage(answerData: any) {
     this.roundWinner = answerData;
     await this.delay(4000);
     this.roundWinner = null;
   }
 
+  /**
+   * This function subscribes to a Subject in the store that fires
+   * an event when the counter for the match reaches zero, so that the page
+   * can be resetted to the default state.
+   */
   subscribeToCounterIsZeroEvent(){
     this.$store.state.gameEvents.subscribe((data: any) => {
       if(data === STORE_GAME_EVENTS_COUNTER_IS_ZERO){

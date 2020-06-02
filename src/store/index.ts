@@ -52,7 +52,6 @@ export default new Vuex.Store({
     // When a new user logs in it is added on the players map. Current client user is
     // not counted as player
     [STORE_MUTATION_ADD_PLAYER](state, payload) {
-      console.log('adding player: ', payload);
       if (!state.players.get(payload.userId) && payload.userId !== state.userId) {
         state.players.set(payload.userId, payload);
         state.totalPlayers += 1;
@@ -79,7 +78,7 @@ export default new Vuex.Store({
     // managed by the server that emits its value every second, in this way all clients are
     // always sincronized. This mutation update the counter value after the server emits it.
     // When the counter get to 0 a gameEvent is emitted to tell to the pages to make the
-    // actions required when the match ends and the game status is set to init. 
+    // actions required when the match ends and the game status is set to init.
     [STORE_MUTATION_UPDATE_COUNTER](state, payload) {
       state.counter = payload;
       if (payload.value === 0) {
@@ -106,6 +105,9 @@ export default new Vuex.Store({
       }
     },
 
+    // When a user reserve a question there is a countdown for him to answer before it reaches
+    // zero. The function emitting the count down values is in the master client. This mutation
+    // updates that counter on the store.
     [STORE_MUTATION_UPDATE_RESERVATION_COUNTER](state, payload) {
       state.reservationCounter = payload.value;
     },

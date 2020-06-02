@@ -1,6 +1,6 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component,  Vue } from 'vue-property-decorator';
 import { Socket } from 'vue-socket.io-extended';
-import { STORE_MUTATION_UPDATE_USER, STORE_MUTATION_UPDATE_CURRENT_RESERVER, STORE_MUTATION_UPDATE_COUNTER, STORE_MUTATION_UPDATE_GAME_STATE, STORE_GAME_STATUS_QUESTION_RESERVED_BY_USER, STORE_GAME_STATUS_QUESTION_SENT, STORE_MUTATION_UPDATE_RESERVATION_COUNTER } from '@/constants/store-const';
+import { STORE_MUTATION_UPDATE_CURRENT_RESERVER, STORE_MUTATION_UPDATE_COUNTER, STORE_MUTATION_UPDATE_GAME_STATE, STORE_GAME_STATUS_QUESTION_SENT, STORE_MUTATION_UPDATE_RESERVATION_COUNTER } from '@/constants/store-const';
 import MasterPage from '@/components/MasterPage/MasterPage.vue';
 import PlayerPage from '@/components/PlayerPage/PlayerPage.vue';
 import router from '@/router';
@@ -69,10 +69,14 @@ export default class Room extends Vue {
   }
 
 
-
+  /**
+   * When a user reserve a question there is a countdown for him to answer before it reaches
+   * zero. The function emitting the count down values is in the master client, this function 
+   * is triggered when a ner value is emitted and it saves the value on the store.
+   * @param data {value: number}
+   */
   @Socket('newReservationCounterValue')
   newReservationCounterValue(data: any) {
-    console.log("NEW RES COUNT")
     this.$store.commit(STORE_MUTATION_UPDATE_RESERVATION_COUNTER, JSON.parse(data));
   }
 

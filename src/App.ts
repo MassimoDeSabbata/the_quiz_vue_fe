@@ -1,4 +1,4 @@
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Socket } from 'vue-socket.io-extended';
 import { STORE_MUTATION_ADD_PLAYER, STORE_MUTATION_REMOVE_PLAYER } from './constants/store-const';
 
@@ -16,7 +16,6 @@ export default class App extends Vue {
     if (!this.isUserLogged()) {
       return;
     }
-    console.log('NEW USER: ', JSON.parse(data))
     this.$store.commit(STORE_MUTATION_ADD_PLAYER, JSON.parse(data));
   }
 
