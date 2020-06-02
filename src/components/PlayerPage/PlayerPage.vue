@@ -55,7 +55,7 @@
         </div>
 
         <div class="alert alert-danger" v-if="canAnswer === false">
-          <span>Oh snap! Seems like you guessed wrong... {{$store.state.counter.value}} to end of the turn</span>
+          <span>Oh snap! it is going to be better next time... {{$store.state.counter.value}} to end of the turn</span>
         </div>
       </div>
       <div class="answers-container">
